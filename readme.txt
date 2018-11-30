@@ -1,3 +1,5 @@
-Git is a version control system.
+Edited by lwr, 2018-11-30.
 
-Git is free software.
+Confirmed by levy.
+
+这是web服务器端的网络配置。
