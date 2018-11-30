@@ -1,0 +1,795 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>河南大学半实物交通仿真平台</title>
+
+<link rel="stylesheet" type="text/css" href="inc/main.css"/>
+
+<link href="inc/HkCamera.css" rel="stylesheet" />
+
+<script src="inc/jquery-3.3.1.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="inc/yunmain.js"></script>
+
+<script type="text/javascript" src="inc/YunCamera.js"></script>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=sh60IcOWIDUjLHXA6vgYRfG9oN4xUskZ"></script>
+
+<script src="inc/ezuikit.js"></script>
+
+<style type="text/css">
+
+    video{max-width: 600px;width: 100%;max-height: 600px;}	
+
+	#allmap{height:860px;width:880px;}	
+
+</style>
+
+<style type="text/css">
+
+    video{max-width: 600px;width: 100%;}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+<div align="center">
+
+        <table border="0" width="1366" cellpadding="0" cellspacing="0">
+            <tr>
+
+                <td colspan="4">
+                    <div class="header">
+                        <div class="title">
+                            <h1> 河南大学半实物交通仿真平台</h1>                    
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+		            <div id="apDiv1">
+		                <div id="allmap"><a href="a.html">a</a></div>
+		            </div>
+                </td>
+                <td valign="top">
+
+		            <div id="apDiv2">
+
+		                <div id="cameraDiv"> 
+
+		                <video id="myPlayer" height="250" width="450" poster="" controls playsInline webkit-playsinline autoplay>
+								<source src="" id="mps" type="" />
+						</video>  
+		                </div>                                             
+
+		                <button class="normalbtn"  style=" margin-left:0px;" id="Cam1">Cam1</button>
+
+		                <button class="normalbtn"  style=" margin-left:30px;" id="Cam2">Cam2</button>
+
+		                <button class="normalbtn"  style=" margin-left:30px;" id="Cam3">Cam3</button>
+
+		                <button class="normalbtn"  style=" margin-left:30px;" id="Cam4">Cam4</button>
+		                <div id="logContent" align="left"></div>  
+
+		            </div>
+
+                    <div id="Div3">        
+                        <div id="paramDiv" >
+                            <div id="tab_conf">
+                                <div>
+                                    <ul class="li_ys">
+                                        <li  onclick="TabSelect(0)" id="tab_conf_item1">仿真参数</li>
+                                        <li  style=" margin-left:2px;"onclick="TabSelect(1)" id="tab_conf_item2">车辆设置</li>
+                                        <li  style=" margin-left:2px;"onclick="TabSelect(2)" id="tab_conf_item3">网络设置</li>
+                                    </ul>
+                                </div>
+                                <div class="tab_box" style="clear:both;">
+                                    <div id="tab1">
+                                        <table>
+                                            <tr><td width="200" height="30">Simulation Time(s)</td>
+                                                <td><input type="text" id="SimuTime" value="5" /></td>
+                                            </tr>
+                                            <tr><td height="30">Simulation Step([0.1-1]s)</td>
+                                                <td><input type="text" id="SimuStep" value="0.1" /></td>
+                                            </tr>
+                                            <tr><td height="30">Number of Vehicles</td>
+                                                <td>
+                                                    <select id="DDLVehicleNumber">  
+                                                        <option selected>5</option>  
+                                                        <option>10</option> 
+                                                    </select>                                 
+                                            </td></tr>
+                                            <tr><td height="30">Simulation Metric</td>
+                                                <td>
+                                                    <select id="DDLMetric">  
+                                                        <option>Delay</option>  
+                                                        <option>PDR</option>  
+                                                        <option selected>Both</option>  
+                                                    </select> 
+                                            </td></tr>
+                                        </table>
+                                    </div>
+                                    <div class="hide" id="tab2">
+                                        <table>
+                                            <tr><td width="200" height="30">VClass</td>
+                                                <td><select id="VClass">  
+                                                        <option>emergency</option>  
+                                                        <option selected>passenger</option>  
+                                                        <option>bus</option>  
+                                                        <option>coach</option>  
+                                                        <option>truck</option>  
+                                                    </select> 
+                                                </td>
+                                            </tr>
+                                            <tr><td height="30">LCModel</td>
+                                                <td>
+                                                    <select id="LCModel">  
+                                                        <option selected>default</option>  
+                                                        <option>DK2008</option>  
+                                                        <option>LC2013</option>  
+                                                        <option>SL2015</option>   
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr><td height="30">CFModel</td>
+                                                <td>
+                                                    <select id="CFModel">  
+                                                        <option selected>IDM</option>  
+                                                        <option>IDMM</option>  
+                                                        <option>Krauss</option>  
+                                                        <option>KraussPS</option>  
+                                                        <option>KraussOrig1</option>  
+                                                        <option>KraussX</option>  
+                                                        <option>SmartSK</option>  
+                                                        <option>Daniel1</option>
+                                                        <option>PWagner2009</option>
+                                                        <option>BKerner</option>
+                                                        <option>Rail</option>
+                                                        <option>Wiedemann</option>
+                                                    </select>                                 
+                                            </td></tr>
+                                            <tr><td height="30">Probability([0-1])</td>
+                                                <td><input type="text" id="Probability" value="0"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="hide"  id="tab3">
+                                        <table>
+                                            <tr><td width="200" height="30">Transmission Range(不超过1000m)</td>
+                                                <td><input type="text" id="TransmissionRange" value="500" /></td>
+                                            </tr>
+                                            <tr><td height="30">Number of Packets</td>
+                                                <td>
+                                                    <select id="NumberofPackets">  
+                                                        <option selected>100</option>  
+                                                        <option>200</option>  
+                                                        <option>300</option> 
+                                                        <option>400</option>
+                                                        <option>500</option>   
+                                                        <option>600</option>  
+                                                    </select> 
+                                                </td>
+                                            </tr>
+                                            <tr><td height="30">Packet Size（Bytes）</td>
+                                                <td><input type="text" id="PacketSize" value="512"/></td>
+                                            </tr>
+                                            <tr><td height="30">Packet Interval（s）</td>
+                                                <td><input type="text" id="PacketInterval" value="0.1" /> </td>
+                                            </tr>
+                                        </table>
+                                    </div>                                   
+                                </div>                    
+                            </div>                          
+                         </div>                        
+                        <input type="button" style="margin-top:80px;" class="normalbtn1" name="ConfigSave" id="ConfigSave" value="保存参数" onclick="ConfigSave()" />
+                        <input type="button" style="margin-top:80px;margin-left:15px;" class="normalbtn1" name="JoinCars" id="JoinCars" value="加入真车" onclick="JoinCars()" />
+                        <b id="showInfo" style="margin-top:20px;padding-top:20px;padding-left:300px;vertical-align:middle;color: rgb(250, 7, 7);"></b>
+                        <b id="showInfosimu" style="margin-top:20px;padding-top:20px;padding-left:300px;vertical-align:middle;color: rgb(250, 7, 7);"></b>
+                    </div>
+                    
+                    <div id="apDiv5">
+                        <input type="button" style="margin-top:40px;" class="normalbtn1" name="StartFangzhen" id="StartFangzhen" value="开始仿真" onclick="startFangZhen()" />
+                        <input type="button" style="margin-top:40px;margin-left:15px;"class="normalbtn1" name="closeConnectFangZhen"id="closeConnectFangZhen" value="停止仿真" onclick="closeConnectFangZhen()" />
+                        <input type="button" style="margin-top:40px;margin-left:15px;"class="normalbtn1" name="" id="Fangzhenresult" value="查看仿真结果" onclick="showResult()" />                             
+                    </div>	
+                  </td>
+            </tr>
+        </table>      
+    </div>  
+</body>
+
+</html>
+
+
+
+<script type="text/javascript">
+
+	// 百度地图API功能
+	var isShowBuf=new Array(1,1,1,1,1,1,1,1,1,1,1);
+	var time0=0;
+    var ServerAddr=".";//125.219.44.17.
+	var ServerAddrCar = "./post_transfer_cardata.php";//125.219.44.17  post_transfer_cardata.php
+    var ServerAddrRealCar = "./post_transfer_cardatareal.php";
+	var map = new BMap.Map("allmap",{minZoom:17,maxZoom:17});//禁止缩放方式一 "allmap",{minZoom:16,maxZoom:16},
+	map.centerAndZoom(new BMap.Point(114.316176, 34.823386),18);
+	//map.enableScrollWheelZoom(true); //禁止缩放方式二 将该行取消 
+	map.disableDragging();     //禁止拖拽
+	map.clearOverlays(); 
+	var baseX=114.310535;//此基准点为河大范围内的最小坐标
+	var baseY=34.817985;  
+	var k=0;
+	var mapDataCnt=0;
+	var CarNums=0;
+
+    var revFlag=0;
+	var lngBuf=[];
+	var latBuf=[];
+    var RealpointX;	
+	var RealpointY;
+    var Realspeed;
+    var Realangle;
+	var isJoinRealCar=0;
+	var showTime=0;
+    var simuTime=0;
+    var btnsaveconf=document.getElementById("ConfigSave");   
+    var btnjoincar=document.getElementById("JoinCars");
+    var btnstart=document.getElementById("StartFangzhen");
+    var btnresult=document.getElementById("Fangzhenresult");
+    var btnstop=document.getElementById("closeConnectFangZhen");
+    var showinfo=document.getElementById("showInfo");
+	var showInfosimu=document.getElementById("showInfosimu"); 
+    showInfo.innerText="状态提示栏";
+    showInfosimu.innerText="仿真状态提示栏";
+    var reallat0;
+    var reallng0;
+    //
+    //网页加载
+    //是否有真车 post_transfer_isRealCar 保存为isRealCar.json
+    //
+	$.ajax({
+	type: "post",
+	url: ServerAddr+"/post_transfer_isRealCar.php?id=" + RandomNumBoth(1, 30000),
+	data:  "{\"isRealCar\":\"false\"}",
+	dataType: "text",
+	async: false,    // 使用同步操作
+	success: function (data) {
+	    //alert(data);
+	},
+	error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    alert(textStatus);
+	    alert(XMLHttpRequest.status);
+	}
+	})
+    //读取初始gps数据用以判断是否连接
+    $.ajax({
+        type: "get",
+        dataType: "json",
+        url: ServerAddrRealCar+"?id=" + RandomNumBoth(1, 30000),
+        success: function (result) {
+            reallng0=result["lng"];	
+            reallat0=result["lat"];	                                               
+        }
+    });
+ 
+    //
+    //点击保存参数
+    //保存参数 post_transfer_config.php 保存为config.json
+    //弹出保存成功
+    //
+	function ConfigSave() {
+	var SimuTime = $("#SimuTime").val();
+    var SimuStep = $("#SimuStep").val();
+	var DDLVehicleNumber = $("#DDLVehicleNumber").val();
+	var DDLMetric = $("#DDLMetric").val();
+
+	var VClass = $("#VClass").val();
+	var LCModel = $("#LCModel").val();
+	var CFModel = $("#CFModel").val();
+	var Probability = $("#Probability").val();
+
+	var TransmissionRange = $("#TransmissionRange").val();
+	var NumberofPackets = $("#NumberofPackets").val();
+	var PacketSize = $("#PacketSize").val();
+	var PacketInterval = $("#PacketInterval").val();
+
+	var postData = "{";
+	postData += "\"SimuTime\"\:\"" + SimuTime;
+	postData += "\",\"SimuStep\"\:\"" + SimuStep;
+	postData += "\",\"DDLVehicleNumber\"\:\"" + DDLVehicleNumber;
+	postData += "\",\"DDLMetric\"\:\"" + DDLMetric;
+	postData += "\",\"VClass\"\:\"" + VClass;
+	postData += "\",\"LCModel\"\:\"" + LCModel;
+	postData += "\",\"CFModel\"\:\"" + CFModel;
+	postData += "\",\"Probability\"\:\"" + Probability;
+	postData += "\",\"TransmissionRange\"\:\"" + TransmissionRange;
+	postData += "\",\"NumberofPackets\"\:\"" + NumberofPackets;
+	postData += "\",\"PacketSize\"\:\"" + PacketSize;
+	postData += "\",\"PacketInterval\"\:\"" + PacketInterval;
+	postData += "\"}";
+	$.ajax({
+	type: "post",
+	url: ServerAddr+"/post_transfer_config.php?id=" + RandomNumBoth(1, 30000),
+	data: postData,
+	dataType: "text",
+	async: false,    // 使用同步操作
+	success: function (data) {
+	    alert(data);
+	},
+	error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    alert(textStatus);
+	    alert(XMLHttpRequest.status);
+	}
+	})
+	}
+
+    //
+    //点击加入真车按钮
+    //提示正在连接，判断是否有真车，post_transfer_isRealCar 保存为isRealCar.json，
+    //
+    //
+    function ClickJoinBtn(){
+               setTimeout(JoinCars, 2000);
+    }	
+	function JoinCars(){ 
+        isJoinRealCar=1;
+        //提示正在连接
+        showinfo.innerText='正在连接...';   
+        //获取gps data    
+         //获取真车数据
+         $.ajax({
+                type: "get",
+                dataType: "json",
+                url: ServerAddrRealCar+"?id=" + RandomNumBoth(1, 30000),
+                success: function (result) {
+                    console.log(result);
+                    RealpointX=result["lng"];	
+                    RealpointY=result["lat"];	
+                    Realspeed=result["speed"];	
+                    Realangle=result["angle"];	                
+                    console.log(RealpointX);	                
+                    console.log(RealpointY);  	                
+                    console.log(Realspeed);  	                
+                    console.log(Realangle); 
+                    if(reallng0==RealpointX&&reallat0==RealpointY)
+                    {   
+                        showinfo.innerText="连接失败!";
+                        console.log("failed");
+                    }       
+                    else
+                    {                     
+                        //真车数据
+                        var point = new BMap.Point(RealpointX,RealpointY);	
+                        //坐标转换完之后的回调函数
+                        translateCallback = function(data)
+                        {      
+                                    
+                            if(data.status === 0) 
+                            {
+                                var myIcon=new BMap.Icon("images/Car11.png", new BMap.Size(52,26));
+                                var marker = new BMap.Marker(data.points[0],{icon: myIcon});  // 创建标注 
+                                map.addOverlay(marker);  
+                                var opts = {
+                                position :  data.points[0],  // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(0, 0)    //设置文本偏移量
+                                }
+                                var label = new BMap.Label("车辆ID:1111", opts);  // 创建文本标注对象
+                                label.setStyle({
+                                color : "red",
+                                fontSize : "12px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                                });
+                                map.addOverlay(label);  
+
+                                opts = {
+                                position :  data.points[0],  // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(0, 25)    //设置文本偏移量
+                                }
+                                label = new BMap.Label("经度:"+data.points[0].lng, opts);  // 创建文本标注对象
+                                label.setStyle({
+                                color : "red",
+                                fontSize : "12px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                                });
+                                map.addOverlay(label);    
+
+                                opts = {
+                                position :  data.points[0],  // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(0, 50)    //设置文本偏移量
+                                }
+                                label = new BMap.Label("纬度:"+data.points[0].lat, opts);  // 创建文本标注对象                  
+                                label.setStyle({
+                                color : "red",
+                                fontSize : "12px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                                });
+                                map.addOverlay(label);    
+
+                                opts = {
+                                position :  data.points[0],  // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(0, 75)    //设置文本偏移量
+                                }
+                                label = new BMap.Label("速度:"+Realspeed, opts);  // 创建文本标注对象
+                                label.setStyle({
+                                color : "red",
+                                fontSize : "12px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                                });
+                                map.addOverlay(label);    
+
+                                opts = {
+                                position :  data.points[0],  // 指定文本标注所在的地理位置
+                                offset   : new BMap.Size(0, 100)    //设置文本偏移量
+                                }
+                                label = new BMap.Label("方向角:"+Realangle, opts);  // 创建文本标注对象                   
+                                label.setStyle({
+                                color : "red",
+                                fontSize : "12px",
+                                height : "20px",
+                                lineHeight : "20px",
+                                fontFamily:"微软雅黑"
+                                });
+                                map.addOverlay(label);  
+
+                                 $.ajax({
+                                    type: "post",
+                                    url: ServerAddr+"/post_transfer_isRealCar.php?id=" + RandomNumBoth(1, 30000),
+                                    data:  "{\"isRealCar\":\"true\"}",
+                                    dataType: "text",
+                                    async: false,    // 使用同步操作
+                                    success: function (data) {
+                                        //alert(data);
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        alert(textStatus);
+                                        alert(XMLHttpRequest.status);
+                                    }
+                                })
+                                showinfo.innerText="连接成功!";
+                            }
+                                                                                                            
+                        }
+                        setTimeout(function(){
+                        var convertor = new BMap.Convertor();
+                        var pointArr = [];
+                        pointArr.push(point);
+                        convertor.translate(pointArr, 1, 5, translateCallback)
+                        }, 0); 
+                    }   
+                }
+            });
+            
+       
+
+       
+}
+    
+    //
+    //点击开始仿真按钮
+    //按钮变灰色，command写ON，循环读取数据
+    //
+    function startFangZhen() {
+        //按钮变灰色
+        btnsaveconf.disabled=true;
+        btnjoincar.disabled=true; 
+        btnstart.disabled=true; 
+        btnresult.disabled=true;        
+        btnstop.disabled=false;
+
+        map.clearOverlays();  
+        
+        showInfosimu.innerText='启动仿真服务器...';     
+        //command写ON
+        $.ajax({
+            type: "post",
+            url: ServerAddr+"/post_transfer_cmd.php?id=" + RandomNumBoth(1, 30000),
+            data:  "ON",
+            dataType: "text",
+            async: false,    // 使用同步操作
+            success: function (data) {
+                //alert(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+                alert(XMLHttpRequest.status);
+            }
+        })
+        //循环读取数据
+        if (getDataTimer == null) {
+            getDataTimer = setInterval("mapData()", 500);
+        }
+    }
+
+    //
+    //读取cardata.json 保留本次time0，当读取到的time>time0，认为仿真没有结束，否则结束
+    //
+    
+	function mapData(){	
+        simuTime=$("#SimuTime").val();	
+        //获取仿真车辆数据
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: ServerAddrCar+"?id=" + RandomNumBoth(1, 30000),
+            success: function (result) {
+                console.log(result);                      
+                CarNums=result["car"].length;   
+                for(var i =0;i<CarNums;i++)
+                { 				                  
+                    lngBuf[i]=result["car"][i].LNG;
+                    latBuf[i]=result["car"][i].LAT;  
+                } 
+                console.log("result:"+result["time"]);  
+                console.log("time0:"+time0);  
+                console.log("simuTime:"+simuTime);
+
+                if(result["time"]>time0&&result["time"]<=simuTime)
+                {  
+                    showInfosimu.innerText='接收仿真服务器数据...';     
+                    time0=result["time"];   
+                    mapDataCnt++;            
+                    map.clearOverlays();  
+                    //仿真数据         				
+                    var points = [new BMap.Point(lngBuf[0],latBuf[0]),
+                                new BMap.Point(lngBuf[1],latBuf[1]),
+                                new BMap.Point(lngBuf[2],latBuf[2]),
+                                new BMap.Point(lngBuf[3],latBuf[3]),
+                                new BMap.Point(lngBuf[4],latBuf[4]),
+                                new BMap.Point(lngBuf[5],latBuf[5]),
+                                new BMap.Point(lngBuf[6],latBuf[6]),
+                                new BMap.Point(lngBuf[7],latBuf[7]),
+                                new BMap.Point(lngBuf[8],latBuf[8]),
+                                new BMap.Point(lngBuf[9],latBuf[9])   		
+                        ];	
+                    //坐标转换完之后的回调函数
+                    translateCallback = function(data){                
+                        if(data.status === 0) {
+                            for (var i = 0; i < CarNums; i++) {
+                                var myIcon=new BMap.Icon("images/Car"+(i+1)+".png", new BMap.Size(52,26));
+                                var marker = new BMap.Marker(data.points[i],{icon: myIcon});  // 创建标注 
+                                map.addOverlay(marker);                                           
+                            }
+                        }
+                    }
+                    setTimeout(function(){
+                    var convertor = new BMap.Convertor();
+                    convertor.translate(points, 1, 5, translateCallback)
+                    }, 0);    
+                }                    
+                if(result["time"]>0&&result["time"]==simuTime)
+                    {
+                        simuover();
+                    } 
+            }
+        });
+     
+        if(isJoinRealCar)
+        {
+            //获取真车数据
+         $.ajax({
+                type: "get",
+                dataType: "json",
+                url: ServerAddrRealCar+"?id=" + RandomNumBoth(1, 30000),
+                success: function (result) {
+                    console.log(result);
+                    RealpointX=result["lng"];	
+                    RealpointY=result["lat"];	
+                    Realspeed=result["speed"];	
+                    Realangle=result["angle"];	                
+                    console.log(RealpointX);	                
+                    console.log(RealpointY);  	                
+                    console.log(Realspeed);  	                
+                    console.log(Realangle);                        
+                    //真车数据
+                    var point = new BMap.Point(RealpointX,RealpointY);	                   
+
+                     //坐标转换完之后的回调函数
+                    translateCallback = function(datareal)
+                    {              
+                        if(datareal.status === 0) 
+                        {
+                            var myIcon=new BMap.Icon("images/Car11.png", new BMap.Size(52,26));
+                            var marker = new BMap.Marker(datareal.points[0],{icon: myIcon});  // 创建标注 
+                            map.addOverlay(marker);  
+                            var opts = {
+                            position :  datareal.points[0],  // 指定文本标注所在的地理位置
+                            offset   : new BMap.Size(0, 0)    //设置文本偏移量
+                            }
+                            var label = new BMap.Label("车辆ID:1111", opts);  // 创建文本标注对象
+                            label.setStyle({
+                            color : "red",
+                            fontSize : "12px",
+                            height : "20px",
+                            lineHeight : "20px",
+                            fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);  
+
+                            opts = {
+                            position :  datareal.points[0],  // 指定文本标注所在的地理位置
+                            offset   : new BMap.Size(0, 25)    //设置文本偏移量
+                            }
+                            label = new BMap.Label("经度:"+datareal.points[0].lng, opts);  // 创建文本标注对象
+                            label.setStyle({
+                            color : "red",
+                            fontSize : "12px",
+                            height : "20px",
+                            lineHeight : "20px",
+                            fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);    
+
+                            opts = {
+                            position :  datareal.points[0],  // 指定文本标注所在的地理位置
+                            offset   : new BMap.Size(0, 50)    //设置文本偏移量
+                            }
+                            label = new BMap.Label("纬度:"+datareal.points[0].lat, opts);  // 创建文本标注对象                  
+                            label.setStyle({
+                            color : "red",
+                            fontSize : "12px",
+                            height : "20px",
+                            lineHeight : "20px",
+                            fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);    
+
+                            opts = {
+                            position :  datareal.points[0],  // 指定文本标注所在的地理位置
+                            offset   : new BMap.Size(0, 75)    //设置文本偏移量
+                            }
+                            label = new BMap.Label("速度:"+Realspeed, opts);  // 创建文本标注对象
+                            label.setStyle({
+                            color : "red",
+                            fontSize : "12px",
+                            height : "20px",
+                            lineHeight : "20px",
+                            fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);    
+
+                            opts = {
+                            position :  datareal.points[0],  // 指定文本标注所在的地理位置
+                            offset   : new BMap.Size(0, 100)    //设置文本偏移量
+                            }
+                            label = new BMap.Label("方向角:"+Realangle, opts);  // 创建文本标注对象                   
+                            label.setStyle({
+                            color : "red",
+                            fontSize : "12px",
+                            height : "20px",
+                            lineHeight : "20px",
+                            fontFamily:"微软雅黑"
+                            });
+                            map.addOverlay(label);  
+                            showinfo.innerText="连接成功!";
+                        }
+                        else
+                        {   
+                            showinfo.innerText="连接失败!";
+                            console.log("failed");
+                        }                                                                                           
+                    }
+                    setTimeout(function(){
+                    var convertor = new BMap.Convertor();
+                    var pointArr = [];
+                    pointArr.push(point);
+                    convertor.translate(pointArr, 1, 5, translateCallback)
+                    }, 0);    
+                }
+            });
+ 
+        }		
+	}
+    //
+    //仿真结束或停止
+    //
+    function simuover()
+    {
+        console.log("simu stop");
+        showInfosimu.innerText='仿真结束';     
+    
+        window.clearInterval(getDataTimer);
+
+        $.ajax({
+        type: "post",
+        url: ServerAddr+"/post_transfer_isRealCar.php?id=" + RandomNumBoth(1, 30000),
+        data:  "{\"isRealCar\":\"false\"}",
+        dataType: "text",
+        async: false,    // 使用同步操作
+        success: function (data) {
+            //alert(data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+            alert(XMLHttpRequest.status);
+        }
+        })
+        time0=0;
+        map.clearOverlays(); 
+        getDataTimer = null;
+        //按钮恢复
+        btnsaveconf.disabled=false;
+        btnjoincar.disabled=false; 
+        btnstart.disabled=false; 
+        btnresult.disabled=false;
+        btnstop.disabled=true;
+    }
+    //
+    //点击停止仿真按钮
+    //
+    function closeConnectFangZhen() {
+        simuover();
+    }
+
+	//
+	//获取仿真结果
+    //
+    function showResult()
+    {
+        window.open ("post_transfer_result.php");         
+    }
+
+$(document).ready(function(){
+  $("#Cam1").click(function(){
+	document.getElementById("myPlayer").src='rtmp://rtmp.open.ys7.com/openlive/4b2bc2b7084f4248a67e8797c52543f3';
+	var myAudio = $("#myPlayer")[0];
+		
+	var player = new EZUIPlayer('myPlayer');
+    		player.on('play', function(){          
+    });
+
+  })
+})
+ 
+$(document).ready(function(){
+  $("#Cam2").click(function(){
+	document.getElementById("myPlayer").src='rtmp://rtmp.open.ys7.com/openlive/4c457d768e1944aa96907d207a5ab279';
+        var myAudio = $("#myPlayer")[0];
+	//myAudio.load();
+	var player1 = new EZUIPlayer('myPlayer');
+    		player1.on('play', function(){
+        //console.log('play');
+    });
+  })
+}) 
+ 
+$(document).ready(function(){
+  $("#Cam3").click(function(){
+	document.getElementById("myPlayer").src='rtmp://rtmp.open.ys7.com/openlive/0a3994ddb7774e1bb57e3c572f3410a9';
+        var myAudio = $("#myPlayer")[0];
+	//myAudio.load();
+	var player1 = new EZUIPlayer('myPlayer');
+    		player1.on('play', function(){
+        //console.log('play');
+    });
+  })
+}) 
+$(document).ready(function(){
+  $("#Cam4").click(function(){
+	document.getElementById("myPlayer").src='rtmp://rtmp.open.ys7.com/openlive/f01018a141094b7fa138b9d0b856507b';//test
+        var myAudio = $("#myPlayer")[0];
+	//myAudio.load();
+	var player1 = new EZUIPlayer('myPlayer');
+    		player1.on('play', function(){
+        //console.log('play');
+    });
+  })
+})   
+</script>
+
